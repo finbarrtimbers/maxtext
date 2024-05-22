@@ -29,10 +29,16 @@ RUN mkdir -p -m 0700 ~/.ssh && ssh-keyscan github.com >> ~/.ssh/known_hosts
 
 WORKDIR /app
 
-# Install dependencies from a copy of pyproject.toml and poetry.lock first, so that dependecies are cached
-RUN python -m pip install "jax[cpu]" flax orbax grain tensorflow tensorboardX \
-    google-cloud-storage tensorflow_datasets ml_collections tensorflow_text \
-    sentencepiece cloud_accelerator_diagnostics aqtp cloud_tpu_diagnostics \
-    ml-goodput-measurement
+# Uncomment the dependencies to run the various scripts.
+# To run the gemma scripts:
+#RUN python -m pip install "jax[cpu]" flax orbax grain tensorflow tensorboardX \
+#    google-cloud-storage tensorflow_datasets ml_collections tensorflow_text \
+#    sentencepiece cloud_accelerator_diagnostics aqtp cloud_tpu_diagnostics \
+#    ml-goodput-measurement
+# To run `llama_or_mistral_ckpt.py`
+RUN python -m pip install jax torch etils importlib_resources orbax grain tensorflow-cpu \
+    	   flax tensorboardX google-cloud-storage tensorflow_datasets ml_collections tensorflow_text \
+        sentencepiece cloud_accelerator_diagnostics aqtp cloud_tpu_diagnostics \
+    	ml-goodput-measurement
 COPY . .
 WORKDIR /app/MaxText
