@@ -42,6 +42,7 @@ from train import save_checkpoint
 import torch
 import sys
 import os
+import glob
 
 jax.config.update("jax_platform_name", "cpu")
 
@@ -128,6 +129,8 @@ def convert(base_model_path, maxtext_model_path, model_size):
   # Skip any hidden files for checkpoints
   ckpt_paths = sorted(pathlib.Path(base_model_path).glob("[!.]*.pth"))
   ckpt_paths = sorted(pathlib.Path(base_model_path).glob("*.pth"))
+  files = glob.glob(f'{base_model_path}*')
+  print(f'{files=}')
   print(f"Checkpoint paths found: {ckpt_paths}")
   assert ckpt_paths, f"No checkpoint files found in {base_model_path}"
   pytorch_vars = {}
