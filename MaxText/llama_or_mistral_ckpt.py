@@ -60,6 +60,13 @@ MODEL_PARAMS_DICT = {
         "dims_per_head": 128,
         "vocab": 32000,
     },
+    "llama3-70b": {
+        "num_layers": 80,
+        "num_heads": 64,
+        "num_kv_heads": 8,
+        "dims_per_head": 128,
+        "vocab": 128256,
+    },
     "llama2-13b": {
         "num_layers": 40,
         "num_heads": 40,
@@ -120,6 +127,9 @@ def convert(base_model_path, maxtext_model_path, model_size):
   print(f"Loading the base model from {base_model_path}")
   # Skip any hidden files for checkpoints
   ckpt_paths = sorted(pathlib.Path(base_model_path).glob("[!.]*.pth"))
+  ckpt_paths = sorted(pathlib.Path(base_model_path).glob("*.pth"))
+  print(f"Checkpoint paths found: {ckpt_paths}")
+  assert ckpt_paths, f"No checkpoint files found in {base_model_path}"
   pytorch_vars = {}
   for i, ckpt_path in enumerate(ckpt_paths):
     print(f"Loading checkpoint {i+1} of {len(ckpt_paths)} ...")
